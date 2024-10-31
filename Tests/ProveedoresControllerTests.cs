@@ -1,38 +1,38 @@
-﻿using Moq;
-using Xunit;
+﻿using Xunit;
+using Microsoft.AspNetCore.Mvc;
 using ProveedoresAPI.Controlador;
 using ProveedoresAPI.Modelo;
+using Moq;
+using System.Collections.Generic;
 using ProveedoresAPI.Repositorios;
-using Microsoft.AspNetCore.Mvc;
 
-namespace ProveedoresAPI.Tests
+public class ProveedoresControllerTests
 {
-    public class ProveedoresControllerTests
+    [Fact]
+    public void GetAll_ShouldReturnOkResult()
     {
-        private readonly ProveedoresController _controller;
-        private readonly Mock<IProveedorRepository> _mockRepo;
+        // Arrange
+        var mockRepo = new Mock<IProveedorRepository>();
+        mockRepo.Setup(repo => repo.GetAll()).Returns(GetProveedores());
+        var controller = new ProveedoresController(mockRepo.Object);
 
-        public ProveedoresControllerTests()
+        // Act
+        var result = controller.Get();
+
+        // Assert
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        var proveedores = Assert.IsAssignableFrom<List<Proveedor>>(okResult.Value);
+        Assert.Equal(3, proveedores.Count);
+    }
+
+    public async Task<List<Proveedor>> GetProveedores()
+    {
+        return new List<Proveedor>
         {
-            _mockRepo = new Mock<IProveedorRepository>();
-            _controller = new ProveedoresController(_mockRepo.Object);
-        }
-
-        [Fact]
-        public void GetProveedor_ReturnsOkResult_WhenProveedorExists()
-        {
-            // Arrange
-            var proveedorId = "22333333";
-            _mockRepo.Setup(repo => repo.GetById(proveedorId));
-
-            // Act
-            var result = _controller.Get(proveedorId);
-
-            // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            Assert.NotNull(okResult.Value);
-        }
-
-        
+            new Proveedor { NIT = "12345", RazonSocial = "Proveedor 1" },
+            new Proveedor { NIT = "67890", RazonSocial = "Proveedor 2" },
+            new Proveedor { NIT = "54321", RazonSocial = "Proveedor 3" }
+        };
     }
 }
+

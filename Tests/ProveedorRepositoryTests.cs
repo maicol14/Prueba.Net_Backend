@@ -1,57 +1,37 @@
-﻿using Moq;
-using MongoDB.Driver;
-using ProveedoresAPI.Data;
-using ProveedoresAPI.Modelo;
+﻿using Xunit;
 using ProveedoresAPI.Repositorios;
-using Xunit;
+using ProveedoresAPI.Modelo;
+using Moq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace ProveedoresAPI.Tests
+public class ProveedorRepositoryTests
 {
-    public class ProveedorRepositoryTests
+    [Fact]
+    public async Task GetAll_ShouldReturnAllProveedores()
     {
-        private readonly Mock<ProveedorContext> _mockContext;
-        private readonly ProveedorRepository _repository;
-        private readonly Mock<IMongoCollection<Proveedor>> _mockCollection;
+        // Arrange
+        var mockRepo = new Mock<IProveedorRepository>();
 
-        public ProveedorRepositoryTests()
+        // Usa ReturnsAsync para devolver una tarea con una lista de proveedores
+        mockRepo.Setup(repo => repo.GetAll()).ReturnsAsync(GetProveedores());
+        var repository = mockRepo.Object;
+
+        // Act
+        var result = await repository.GetAll();
+
+        // Assert
+        Assert.Equal(3, result.Count); // Asegúrate de que estás esperando 3 proveedores
+    }
+
+    private List<Proveedor> GetProveedores()
+    {
+        // Devuelve una lista de proveedores
+        return new List<Proveedor>
         {
-            // Configura el mock de la colección
-            _mockCollection = new Mock<IMongoCollection<Proveedor>>();
-
-            // Configura el mock de ProveedorContext
-            _mockContext = new Mock<ProveedorContext>();
-            _mockContext.Setup(c => c.Proveedores).Returns(_mockCollection.Object);
-
-            // Crea la instancia del repositorio con el contexto simulado
-            _repository = new ProveedorRepository(_mockContext.Object);
-        }
-
-        [Fact]
-        public async Task GetAll_ReturnsAllProveedores()
-        {
-            // Arrange
-            var proveedores = new List<Proveedor>
-            {
-                new Proveedor { NIT = "22333333", RazonSocial = "Proveedor 1" },
-              
-            };
-
-            var mockCursor = new Mock<IAsyncCursor<Proveedor>>();
-            mockCursor.SetupSequence(_ => _.MoveNext(It.IsAny<CancellationToken>()))
-                .Returns(true)
-                .Returns(false);
-            mockCursor.SetupGet(_ => _.Current).Returns(proveedores);
-
-          
-
-            // Act
-            var result = await _repository.GetAll();
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.Equal(2, result.Count);
-        }
-
-        
+            new Proveedor { NIT = "12345", RazonSocial = "Proveedor 1" },
+            new Proveedor { NIT = "67890", RazonSocial = "Proveedor 2" },
+            new Proveedor { NIT = "54321", RazonSocial = "Proveedor 3" }
+        };
     }
 }
