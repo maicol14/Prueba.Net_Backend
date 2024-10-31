@@ -1,0 +1,101 @@
+[
+  {
+    "ContainingType": "ProveedoresAPI.Controlador.ProveedoresController",
+    "Method": "Get",
+    "RelativePath": "api/Proveedores",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[ProveedoresAPI.Modelo.Proveedor, ProveedoresAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ProveedoresAPI.Controlador.ProveedoresController",
+    "Method": "Post",
+    "RelativePath": "api/Proveedores",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "proveedor",
+        "Type": "ProveedoresAPI.Modelo.Proveedor",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProveedoresAPI.Controlador.ProveedoresController",
+    "Method": "Get",
+    "RelativePath": "api/Proveedores/{nit}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "nit",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ProveedoresAPI.Modelo.Proveedor",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ProveedoresAPI.Controlador.ProveedoresController",
+    "Method": "Update",
+    "RelativePath": "api/Proveedores/{nit}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "nit",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "proveedor",
+        "Type": "ProveedoresAPI.Modelo.Proveedor",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ProveedoresAPI.Controlador.ProveedoresController",
+    "Method": "Delete",
+    "RelativePath": "api/Proveedores/{nit}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "nit",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
